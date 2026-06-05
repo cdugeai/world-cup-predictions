@@ -18,6 +18,8 @@ results = results.dropna(subset=["home_score", "away_score"])
 name_map = {
     "Czechia":       "Czech Republic",
     "USA":           "United States",
+    "Congo DR":           "DR Congo",
+    "Türkiye": "Turkey"
 }
 matches["team1"] = matches["team1"].replace(name_map)
 matches["team2"] = matches["team2"].replace(name_map)

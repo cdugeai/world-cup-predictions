@@ -38,7 +38,7 @@ date,home_team,away_team,winner,first_shooter
 1971-11-14,South Korea,Vietnam Republic,South Korea,
 1972-05-07,South Korea,Iraq,Iraq,
 
-List of matches to predict (warn, names can be misaligned with previous datasets):
+List of matches to predict:
 
 data/cleaned/matchs_group_clean.csv
 
@@ -50,4 +50,7 @@ match_id,date_,group_,team1,team2
 4,12-Jun-26,D,USA,Paraguay
 ```
 
-What code
+Two questions:
+
+1. SQL request to find what team in data/cleaned/matchs_group_clean.csv has not match in the results.csv dataset as the data is not coming from same source
+2. What code would you recommend to predict the score for the matches in csv data/cleaned/matchs_group_clean.csv ?

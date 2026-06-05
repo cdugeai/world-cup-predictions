@@ -1,12 +1,12 @@
 team1,team2,team1_win_pct,team1_points,draw_pct,draw_points,team2_win_pct,team2_points
 Mexico,South Africa,0.8200000000000001,49,0.1,125,0.08,148
-South Korea,Czechia,0.31,96,0.5,107,0.19,91
+South Korea,Czech Republic,0.31,96,0.5,107,0.19,91
 Canada,Bosnia,0.59,65,0.23,117,0.18,125
-United States,Paraguay,0.63,74,0.21,113,0.16,115
+USA,Paraguay,0.63,74,0.21,113,0.16,115
 Qatar,Switzerland,0.06,172,0.07,141,0.87,33
 Brazil,Morocco,0.5,55,0.3,122,0.2,140
 Haiti,Scotland,0.04,154,0.08,131,0.88,44
-Australia,Türkiye,0.09,126,0.23,115,0.6900000000000001,66
+Australia,Turkey,0.09,126,0.23,115,0.6900000000000001,66
 Germany,Curaçao,0.97,15,0.02,179,0.01,222
 Netherlands,Japan,0.61,74,0.25,115,0.13,113
 Ivory Coast,Ecuador,0.34,108,0.47000000000000003,101,0.19,85
@@ -19,18 +19,18 @@ France,Senegal,0.91,46,0.07,128,0.02,153
 Iraq,Norway,0.02,178,0.05,144,0.93,30
 Argentina,Algeria,0.81,43,0.13,129,0.06,159
 Austria,Jordan,0.85,38,0.12,136,0.03,163
-Portugal,DR Congo,0.9500000000000001,34,0.03,140,0.01,170
+Portugal,Congo DR,0.9500000000000001,34,0.03,140,0.01,170
 England,Croatia,0.5700000000000001,59,0.34,119,0.08,133
 Ghana,Panama,0.6,73,0.33,113,0.07,116
 Uzbekistan,Colombia,0.03,157,0.07,130,0.9,44
-Czechia,South Africa,0.59,62,0.27,112,0.14,142
+Czech Republic,South Africa,0.59,62,0.27,112,0.14,142
 Switzerland,Bosnia,0.76,76,0.19,108,0.05,134
 Canada,Qatar,0.79,71,0.15,104,0.06,148
 Mexico,South Korea,0.59,69,0.29,117,0.12,129
-United States,Australia,0.68,58,0.23,119,0.09,153
+USA,Australia,0.68,58,0.23,119,0.09,153
 Scotland,Morocco,0.07,99,0.25,112,0.68,91
 Brazil,Haiti,0.97,21,0.02,167,0.01,198
-Türkiye,Paraguay,0.6,84,0.29,113,0.11,126
+Turkey,Paraguay,0.6,84,0.29,113,0.11,126
 Netherlands,Sweden,0.65,67,0.28,122,0.07,131
 Germany,Ivory Coast,0.86,38,0.1,137,0.04,164
 Ecuador,Curaçao,0.85,41,0.12,143,0.03,168
@@ -46,18 +46,18 @@ Jordan,Algeria,0.04,152,0.13,139,0.8300000000000001,67
 Portugal,Uzbekistan,0.97,24,0.02,154,0.01,173
 England,Ghana,0.89,44,0.08,127,0.03,162
 Panama,Croatia,0.03,165,0.07,123,0.9,36
-Colombia,DR Congo,0.71,77,0.23,111,0.06,123
+Colombia,Congo DR,0.71,77,0.23,111,0.06,123
 Switzerland,Canada,0.55,68,0.37,106,0.08,129
 Bosnia,Qatar,0.5700000000000001,87,0.32,102,0.11,120
 Scotland,Brazil,0.04,145,0.09,124,0.87,48
 Morocco,Haiti,0.9500000000000001,29,0.03,159,0.02,187
-Czechia,Mexico,0.11,109,0.44,99,0.45,91
+Czech Republic,Mexico,0.11,109,0.44,99,0.45,91
 South Africa,South Korea,0.14,117,0.33,103,0.52,87
 Ecuador,Germany,0.05,145,0.12,129,0.8300000000000001,42
 Curaçao,Ivory Coast,0.03,163,0.08,118,0.89,53
 Tunisia,Netherlands,0.05,131,0.14,123,0.81,56
 Japan,Sweden,0.32,96,0.47000000000000003,108,0.2,111
-Türkiye,United States,0.34,109,0.41000000000000003,102,0.25,93
+Turkey,USA,0.34,109,0.41000000000000003,102,0.25,93
 Paraguay,Australia,0.54,74,0.33,104,0.14,131
 Norway,France,0.04,141,0.18,108,0.78,68
 Senegal,Iraq,0.92,54,0.06,115,0.02,149
@@ -68,6 +68,6 @@ Egypt,Iran,0.66,85,0.28,114,0.06,123
 Panama,England,0.02,168,0.03,137,0.9400000000000001,32
 Croatia,Ghana,0.74,57,0.2,120,0.06,138
 Colombia,Portugal,0.05,154,0.19,102,0.76,55
-DR Congo,Uzbekistan,0.64,63,0.29,107,0.07,158
+Congo DR,Uzbekistan,0.64,63,0.29,107,0.07,158
 Jordan,Argentina,0.02,165,0.03,145,0.9500000000000001,32
 Algeria,Austria,0.34,96,0.46,103,0.21,107

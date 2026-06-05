@@ -51,5 +51,20 @@ odds_df = pl.DataFrame(odds).select(
     pl.col('team2_points').cast(pl.Int16),
 )
 
+# Use canonical country names from mapping 
+aliases_country = pl.read_csv('data/cleaned/team_aliases.csv')
+
+odds_df = (
+    odds_df
+    .join(aliases_country.select(pl.col('alias').alias('team1'), pl.col('canonical').alias('team1_canonical')), on='team1', how="left")
+    .join(aliases_country.select(pl.col('alias').alias('team2'), pl.col('canonical').alias('team2_canonical')), on='team2', how="left")
+    .with_columns(
+        pl.coalesce(pl.col('team1_canonical'), pl.col('team1')).alias('team1'),
+        pl.coalesce(pl.col('team2_canonical'), pl.col('team2')).alias('team2')
+    )
+    .drop("team1_canonical", "team2_canonical")
+)
+
+
 odds_df.write_csv('data/cleaned/odds_mpp.csv')
 print(odds_df)

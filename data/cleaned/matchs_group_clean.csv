@@ -1,0 +1,73 @@
+match_id,date_,group_,team1,team2
+1,11-Jun-26,A,Mexico,South Africa
+2,11-Jun-26,A,South Korea,Czechia
+3,12-Jun-26,B,Canada,Bosnia and Herzegovina
+4,12-Jun-26,D,USA,Paraguay
+5,13-Jun-26,C,Haiti,Scotland
+6,13-Jun-26,D,Australia,Türkiye
+7,13-Jun-26,C,Brazil,Morocco
+8,13-Jun-26,B,Qatar,Switzerland
+9,14-Jun-26,E,Ivory Coast,Ecuador
+10,14-Jun-26,E,Germany,Curaçao
+11,14-Jun-26,F,Netherlands,Japan
+12,14-Jun-26,F,Sweden,Tunisia
+13,15-Jun-26,H,Saudi Arabia,Uruguay
+14,15-Jun-26,H,Spain,Cape Verde
+15,15-Jun-26,G,Iran,New Zealand
+16,15-Jun-26,G,Belgium,Egypt
+17,16-Jun-26,I,France,Senegal
+18,16-Jun-26,I,Iraq,Norway
+19,16-Jun-26,J,Argentina,Algeria
+20,16-Jun-26,J,Austria,Jordan
+21,17-Jun-26,L,Ghana,Panama
+22,17-Jun-26,L,England,Croatia
+23,17-Jun-26,K,Portugal,Congo DR
+24,17-Jun-26,K,Uzbekistan,Colombia
+25,18-Jun-26,A,Czechia,South Africa
+26,18-Jun-26,B,Switzerland,Bosnia and Herzegovina
+27,18-Jun-26,B,Canada,Qatar
+28,18-Jun-26,A,Mexico,South Korea
+29,19-Jun-26,C,Brazil,Haiti
+30,19-Jun-26,C,Scotland,Morocco
+31,19-Jun-26,D,Türkiye,Paraguay
+32,19-Jun-26,D,USA,Australia
+33,20-Jun-26,E,Germany,Ivory Coast
+34,20-Jun-26,E,Ecuador,Curaçao
+35,20-Jun-26,F,Netherlands,Sweden
+36,20-Jun-26,F,Tunisia,Japan
+37,21-Jun-26,H,Uruguay,Cape Verde
+38,21-Jun-26,H,Spain,Saudi Arabia
+39,21-Jun-26,G,Belgium,Iran
+40,21-Jun-26,G,New Zealand,Egypt
+41,22-Jun-26,I,Norway,Senegal
+42,22-Jun-26,I,France,Iraq
+43,22-Jun-26,J,Argentina,Austria
+44,22-Jun-26,J,Jordan,Algeria
+45,23-Jun-26,L,England,Ghana
+46,23-Jun-26,L,Panama,Croatia
+47,23-Jun-26,K,Portugal,Uzbekistan
+48,23-Jun-26,K,Colombia,Congo DR
+49,24-Jun-26,C,Scotland,Brazil
+50,24-Jun-26,C,Morocco,Haiti
+51,24-Jun-26,B,Switzerland,Canada
+52,24-Jun-26,B,Bosnia and Herzegovina,Qatar
+53,24-Jun-26,A,Czechia,Mexico
+54,24-Jun-26,A,South Africa,South Korea
+55,25-Jun-26,E,Curaçao,Ivory Coast
+56,25-Jun-26,E,Ecuador,Germany
+57,25-Jun-26,F,Japan,Sweden
+58,25-Jun-26,F,Tunisia,Netherlands
+59,25-Jun-26,D,Türkiye,USA
+60,25-Jun-26,D,Paraguay,Australia
+61,26-Jun-26,I,Norway,France
+62,26-Jun-26,I,Senegal,Iraq
+63,26-Jun-26,G,Egypt,Iran
+64,26-Jun-26,G,New Zealand,Belgium
+65,26-Jun-26,H,Cape Verde,Saudi Arabia
+66,26-Jun-26,H,Uruguay,Spain
+67,27-Jun-26,L,Panama,England
+68,27-Jun-26,L,Croatia,Ghana
+69,27-Jun-26,J,Algeria,Austria
+70,27-Jun-26,J,Jordan,Argentina
+71,27-Jun-26,K,Colombia,Portugal
+72,27-Jun-26,K,Congo DR,Uzbekistan

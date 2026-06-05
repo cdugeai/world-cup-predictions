@@ -124,17 +124,46 @@ def calibrate_lambdas(
     return float(np.clip(l1_cal, 0.3, 4.0)), float(np.clip(l2_cal, 0.3, 4.0))
 
 
+# ─── TEAM NAME ALIASES ───────────────────────────────────────────────────────
+
+# Default path — override by passing aliases_path= to merge_odds()
+DEFAULT_ALIASES_PATH = "data/cleaned/team_aliases.csv"
+
+def load_aliases(filepath: str = DEFAULT_ALIASES_PATH) -> dict[str, str]:
+    """
+    Load manual alias -> canonical name mappings from CSV.
+    Expected columns: alias, canonical
+
+    Example data/team_aliases.csv:
+        alias,canonical
+        USA,United States
+        Turkey,Türkiye
+        Czechia,Czech Republic
+        Bosnia,Bosnia and Herzegovina
+        Korea Republic,South Korea
+        IR Iran,Iran
+
+    Returns a dict {alias_lower: canonical} for case-insensitive lookup.
+    Missing file is silently ignored (returns empty dict).
+    """
+    try:
+        df = pd.read_csv(filepath)
+        aliases = {
+            str(row["alias"]).strip().lower(): str(row["canonical"]).strip()
+            for _, row in df.iterrows()
+        }
+        print(f"  Loaded {len(aliases)} team aliases from {filepath}")
+        return aliases
+    except FileNotFoundError:
+        return {}
+
+
 # ─── MERGE ODDS INTO PREDICTIONS ─────────────────────────────────────────────
 
 def _fuzzy_match(name: str, candidates: list[str], threshold: float = 0.75) -> str | None:
     """
     Match a team name to the closest candidate using character n-gram similarity.
     Returns the best match if above threshold, else None.
-
-    Handles common mismatches:
-      'Bosnia' -> 'Bosnia and Herzegovina'
-      'Czechia' -> 'Czech Republic'
-      'USA'    -> 'United States'
     """
     from difflib import SequenceMatcher
     name_l = name.lower().strip()
@@ -148,29 +177,44 @@ def _fuzzy_match(name: str, candidates: list[str], threshold: float = 0.75) -> s
             best_score, best_match = score, c
     return best_match if best_score >= threshold else None
 
-def merge_odds(df_pred: pd.DataFrame, df_odds: pd.DataFrame) -> pd.DataFrame:
+def merge_odds(
+    df_pred: pd.DataFrame,
+    df_odds: pd.DataFrame,
+    aliases_path: str = DEFAULT_ALIASES_PATH,
+) -> pd.DataFrame:
     """
-    Join odds to predictions on team names using fuzzy matching —
-    handles short names ('Bosnia'), alternate spellings ('Czechia'),
-    and case/spacing differences. Reports any fuzzy substitutions made.
+    Join odds to predictions on team names using:
+      1. Manual alias table (data/team_aliases.csv) — checked first, always wins
+      2. Fuzzy matching — fallback for names not in the alias table
+
+    To fix a ⚠ warning, just add a row to data/team_aliases.csv — no code changes needed.
     Unmatched rows keep model-only probabilities.
     """
     df_pred = df_pred.copy()
     df_odds  = df_odds.copy()
 
+    aliases = load_aliases(aliases_path)  # {alias_lower: canonical}
     pred_teams = list(df_pred["team1"].unique()) + list(df_pred["team2"].unique())
 
     # Build a name mapping: odds name -> prediction name
+    # Priority: alias table > fuzzy match
     name_fixes: dict[str, str] = {}
     for col in ["team1", "team2"]:
         for odds_name in df_odds[col].unique():
-            if odds_name not in pred_teams:
+            if odds_name in pred_teams:
+                continue  # exact match, nothing to do
+
+            alias_hit = aliases.get(odds_name.strip().lower())
+            if alias_hit:
+                name_fixes[odds_name] = alias_hit
+                print(f"  ✓ Alias match:  '{odds_name}' -> '{alias_hit}'")
+            else:
                 match = _fuzzy_match(odds_name, pred_teams)
-                if match and match != odds_name:
+                if match:
                     name_fixes[odds_name] = match
                     print(f"  ↳ Fuzzy match: '{odds_name}' -> '{match}'")
-                elif not match:
-                    print(f"  ⚠ No match found for odds team: '{odds_name}' — row will be skipped")
+                else:
+                    print(f"  ⚠ No match for '{odds_name}' — add to data/team_aliases.csv to fix")
 
     # Apply fixes to odds team names
     for col in ["team1", "team2"]:

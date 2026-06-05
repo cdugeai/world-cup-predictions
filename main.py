@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.stats import poisson
+from odds_integration import load_odds, merge_odds, apply_odds_calibration, print_predictions
 
 # ─── 1. LOAD DATA ────────────────────────────────────────────────────────────
 
@@ -202,10 +203,11 @@ for _, row in matches.iterrows():
 
 df_pred = pd.DataFrame(predictions)
 
-cols = ["match_id", "group", "date", "team1", "team2",
-        "predicted_score", "p_win1", "p_draw", "p_win2",
-        "lambda1", "lambda2", "elo1", "elo2", "rank1", "rank2"]
-print("\n=== PREDICTIONS ===")
-print(df_pred[cols].to_string(index=False))
-df_pred[cols].to_csv("data/out/predictions.csv", index=False)
-print("\nSaved to data/out/predictions.csv")
+# ─── 8. INTEGRATE ODDS ───────────────────────────────────────────────────────
+
+odds = load_odds("data/cleaned/odds_checker_com.csv")
+df_pred = merge_odds(df_pred, odds)
+df_pred = apply_odds_calibration(df_pred, market_weight=0.7)
+
+print_predictions(df_pred)
+df_pred.to_csv("data/out/predictions.csv", index=False)

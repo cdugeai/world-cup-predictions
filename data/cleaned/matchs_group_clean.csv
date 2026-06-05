@@ -1,10 +1,10 @@
 match_id,date_,group_,team1,team2
 1,11-Jun-26,A,Mexico,South Africa
-2,11-Jun-26,A,South Korea,Czechia
-3,12-Jun-26,B,Canada,Bosnia and Herzegovina
+2,11-Jun-26,A,South Korea,Czech Republic
+3,12-Jun-26,B,Canada,Bosnia
 4,12-Jun-26,D,USA,Paraguay
 5,13-Jun-26,C,Haiti,Scotland
-6,13-Jun-26,D,Australia,Türkiye
+6,13-Jun-26,D,Australia,Turkey
 7,13-Jun-26,C,Brazil,Morocco
 8,13-Jun-26,B,Qatar,Switzerland
 9,14-Jun-26,E,Ivory Coast,Ecuador
@@ -23,13 +23,13 @@ match_id,date_,group_,team1,team2
 22,17-Jun-26,L,England,Croatia
 23,17-Jun-26,K,Portugal,Congo DR
 24,17-Jun-26,K,Uzbekistan,Colombia
-25,18-Jun-26,A,Czechia,South Africa
-26,18-Jun-26,B,Switzerland,Bosnia and Herzegovina
+25,18-Jun-26,A,Czech Republic,South Africa
+26,18-Jun-26,B,Switzerland,Bosnia
 27,18-Jun-26,B,Canada,Qatar
 28,18-Jun-26,A,Mexico,South Korea
 29,19-Jun-26,C,Brazil,Haiti
 30,19-Jun-26,C,Scotland,Morocco
-31,19-Jun-26,D,Türkiye,Paraguay
+31,19-Jun-26,D,Turkey,Paraguay
 32,19-Jun-26,D,USA,Australia
 33,20-Jun-26,E,Germany,Ivory Coast
 34,20-Jun-26,E,Ecuador,Curaçao
@@ -50,14 +50,14 @@ match_id,date_,group_,team1,team2
 49,24-Jun-26,C,Scotland,Brazil
 50,24-Jun-26,C,Morocco,Haiti
 51,24-Jun-26,B,Switzerland,Canada
-52,24-Jun-26,B,Bosnia and Herzegovina,Qatar
-53,24-Jun-26,A,Czechia,Mexico
+52,24-Jun-26,B,Bosnia,Qatar
+53,24-Jun-26,A,Czech Republic,Mexico
 54,24-Jun-26,A,South Africa,South Korea
 55,25-Jun-26,E,Curaçao,Ivory Coast
 56,25-Jun-26,E,Ecuador,Germany
 57,25-Jun-26,F,Japan,Sweden
 58,25-Jun-26,F,Tunisia,Netherlands
-59,25-Jun-26,D,Türkiye,USA
+59,25-Jun-26,D,Turkey,USA
 60,25-Jun-26,D,Paraguay,Australia
 61,26-Jun-26,I,Norway,France
 62,26-Jun-26,I,Senegal,Iraq

@@ -1,4 +1,5 @@
 import pandas as pd
+import polars as pl
 import numpy as np
 from scipy.stats import poisson
 from odds_integration import load_odds, merge_odds, apply_odds_calibration, print_predictions
@@ -15,12 +16,10 @@ results["away_score"] = pd.to_numeric(results["away_score"], errors="coerce")
 results = results.dropna(subset=["home_score", "away_score"])
 
 # Fix team name mismatches between datasets — run Q1 check to find more
-name_map = {
-    "Czechia":       "Czech Republic",
-    "USA":           "United States",
-    "Congo DR":           "DR Congo",
-    "Türkiye": "Turkey"
-}
+name_map = {}
+# Load alias mapping from CSV
+for x in pl.read_csv('data/cleaned/team_aliases.csv').to_dicts():
+    name_map[x['alias']] = x['canonical']
 matches["team1"] = matches["team1"].replace(name_map)
 matches["team2"] = matches["team2"].replace(name_map)
 

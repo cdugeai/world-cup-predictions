@@ -18,15 +18,56 @@ def normalize_probs(p1: float, pd: float, p2: float) -> tuple[float, float, floa
     total = p1 + pd + p2
     return p1 / total, pd / total, p2 / total
 
+def _detect_format(odds: pd.DataFrame) -> str:
+    """
+    Auto-detect odds format from column names:
+      - 'percentage' : team1_win_pct / draw_pct / team2_win_pct
+      - 'fractional' : odd_1 / odd_null / odd_2
+    """
+    cols = set(odds.columns)
+    if {"team1_win_pct", "draw_pct", "team2_win_pct"}.issubset(cols):
+        return "percentage"
+    if {"odd_1", "odd_null", "odd_2"}.issubset(cols):
+        return "fractional"
+    raise ValueError(
+        "Cannot detect odds format. Expected columns:\n"
+        "  percentage format: team1_win_pct, draw_pct, team2_win_pct\n"
+        "  fractional format: odd_1, odd_null, odd_2"
+    )
+
 def load_odds(filepath: str) -> pd.DataFrame:
-    """Load odds CSV and compute normalized market probabilities."""
+    """
+    Load odds CSV — auto-detects format (percentage or fractional).
+
+    Percentage format:  team1_win_pct / draw_pct / team2_win_pct  (values 0-1 or 0-100)
+    Fractional format:  odd_1 / odd_null / odd_2                  (values like '33/20')
+
+    Always outputs: mkt_win1, mkt_draw, mkt_win2 (normalized, sum to 1.0) + margin.
+    """
     odds = pd.read_csv(filepath)
+    fmt = _detect_format(odds)
 
-    odds["p1_raw"] = odds["odd_1"].apply(fractional_to_prob)
-    odds["pd_raw"] = odds["odd_null"].apply(fractional_to_prob)
-    odds["p2_raw"] = odds["odd_2"].apply(fractional_to_prob)
+    if fmt == "percentage":
+        p1 = pd.to_numeric(odds["team1_win_pct"], errors="coerce")
+        pd_ = pd.to_numeric(odds["draw_pct"],      errors="coerce")
+        p2 = pd.to_numeric(odds["team2_win_pct"],  errors="coerce")
 
-    # Bookmaker margin: how much over 100% the raw probs sum to
+        # Support both 0–1 and 0–100 ranges
+        if p1.max() > 1.5:
+            p1, pd_, p2 = p1 / 100, pd_ / 100, p2 / 100
+
+        odds["p1_raw"], odds["pd_raw"], odds["p2_raw"] = p1, pd_, p2
+
+        # Alias display columns to match fractional convention
+        odds["odd_1"]    = odds["team1_win_pct"]
+        odds["odd_null"] = odds["draw_pct"]
+        odds["odd_2"]    = odds["team2_win_pct"]
+
+    else:  # fractional
+        odds["p1_raw"] = odds["odd_1"].apply(fractional_to_prob)
+        odds["pd_raw"] = odds["odd_null"].apply(fractional_to_prob)
+        odds["p2_raw"] = odds["odd_2"].apply(fractional_to_prob)
+
     odds["margin"] = odds["p1_raw"] + odds["pd_raw"] + odds["p2_raw"] - 1.0
 
     normalized = odds.apply(
@@ -36,6 +77,7 @@ def load_odds(filepath: str) -> pd.DataFrame:
         normalized.tolist(), index=odds.index
     )
 
+    print(f"  Loaded {len(odds)} odds rows  [format: {fmt}]")
     return odds[["team1", "team2", "odd_1", "odd_null", "odd_2",
                  "mkt_win1", "mkt_draw", "mkt_win2", "margin"]]
 
@@ -84,29 +126,63 @@ def calibrate_lambdas(
 
 # ─── MERGE ODDS INTO PREDICTIONS ─────────────────────────────────────────────
 
+def _fuzzy_match(name: str, candidates: list[str], threshold: float = 0.75) -> str | None:
+    """
+    Match a team name to the closest candidate using character n-gram similarity.
+    Returns the best match if above threshold, else None.
+
+    Handles common mismatches:
+      'Bosnia' -> 'Bosnia and Herzegovina'
+      'Czechia' -> 'Czech Republic'
+      'USA'    -> 'United States'
+    """
+    from difflib import SequenceMatcher
+    name_l = name.lower().strip()
+    best_score, best_match = 0.0, None
+    for c in candidates:
+        score = SequenceMatcher(None, name_l, c.lower().strip()).ratio()
+        # Bonus: substring match (e.g. 'Bosnia' inside 'Bosnia and Herzegovina')
+        if name_l in c.lower() or c.lower() in name_l:
+            score = max(score, 0.85)
+        if score > best_score:
+            best_score, best_match = score, c
+    return best_match if best_score >= threshold else None
+
 def merge_odds(df_pred: pd.DataFrame, df_odds: pd.DataFrame) -> pd.DataFrame:
     """
-    Join odds to predictions on team names (case-insensitive, stripped).
+    Join odds to predictions on team names using fuzzy matching —
+    handles short names ('Bosnia'), alternate spellings ('Czechia'),
+    and case/spacing differences. Reports any fuzzy substitutions made.
     Unmatched rows keep model-only probabilities.
     """
     df_pred = df_pred.copy()
     df_odds  = df_odds.copy()
 
-    # Normalize team names for joining
-    for df in [df_pred, df_odds]:
-        for col in ["team1", "team2"]:
-            df[col] = df[col].str.strip().str.lower()
+    pred_teams = list(df_pred["team1"].unique()) + list(df_pred["team2"].unique())
 
-    merged = df_pred.merge(
-        df_odds[["team1", "team2", "odd_1", "odd_null", "odd_2",
-                 "mkt_win1", "mkt_draw", "mkt_win2", "margin"]],
-        on=["team1", "team2"],
-        how="left",
-    )
+    # Build a name mapping: odds name -> prediction name
+    name_fixes: dict[str, str] = {}
+    for col in ["team1", "team2"]:
+        for odds_name in df_odds[col].unique():
+            if odds_name not in pred_teams:
+                match = _fuzzy_match(odds_name, pred_teams)
+                if match and match != odds_name:
+                    name_fixes[odds_name] = match
+                    print(f"  ↳ Fuzzy match: '{odds_name}' -> '{match}'")
+                elif not match:
+                    print(f"  ⚠ No match found for odds team: '{odds_name}' — row will be skipped")
 
-    # Restore original casing from predictions
-    merged["team1"] = df_pred["team1"].values
-    merged["team2"] = df_pred["team2"].values
+    # Apply fixes to odds team names
+    for col in ["team1", "team2"]:
+        df_odds[col] = df_odds[col].replace(name_fixes)
+
+    odds_cols = ["team1", "team2", "odd_1", "odd_null", "odd_2",
+                 "mkt_win1", "mkt_draw", "mkt_win2", "margin"]
+
+    merged = df_pred.merge(df_odds[odds_cols], on=["team1", "team2"], how="left")
+
+    matched = merged["mkt_win1"].notna().sum()
+    print(f"  Odds matched: {matched}/{len(merged)} matches")
 
     return merged
 
@@ -202,7 +278,7 @@ def print_predictions(df: pd.DataFrame):
 
         if r.get("has_odds"):
             print(f"  Odds:       {r['odd_1']} / {r['odd_null']} / {r['odd_2']}"
-                  f"  (margin: {r['margin']:.1%})")
+                  f"  (vig: {r['margin']:+.1%})")
             print(f"  Market:     W1={r['p_win1_market']:.1%}  D={r['p_draw_market']:.1%}"
                   f"  W2={r['p_win2_market']:.1%}")
             print(f"  Model:      W1={r['p_win1']:.1%}  D={r['p_draw']:.1%}  W2={r['p_win2']:.1%}")

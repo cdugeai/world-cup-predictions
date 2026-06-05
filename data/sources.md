@@ -5,3 +5,5 @@ results and shootouts: https://www.kaggle.com/datasets/martj42/international-foo
 match groups: extracted from html table at https://www.roadtrips.com/world-cup/2026-world-cup-packages/schedule/
 
 odds checker data: https://www.oddschecker.com/football/world-cup
+
+Odds MPP: https://mpp.football/

@@ -44,9 +44,9 @@ def save_to_csv(rows: list[dict], output_path: str) -> None:
 
 
 if __name__ == "__main__":
-    with open("data/odds_betclic.html", "r", encoding="utf-8") as f:
+    with open("data/odds_unibet.html", "r", encoding="utf-8") as f:
         html = f.read()
 
     rows = parse_odds(html)
-    save_to_csv(rows, "data/cleaned/odds_betclic.csv")
+    save_to_csv(rows, "data/cleaned/odds_unibet.csv")
     print(f"Parsed {len(rows)} matches to csv")

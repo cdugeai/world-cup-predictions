@@ -7,3 +7,5 @@ match groups: extracted from html table at https://www.roadtrips.com/world-cup/2
 odds checker data: https://www.oddschecker.com/football/world-cup
 
 Odds MPP: https://mpp.football/
+
+Odds Unibet: https://www.unibet.co.uk/betting/odds/football

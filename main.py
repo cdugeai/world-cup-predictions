@@ -205,8 +205,13 @@ for _, row in matches.iterrows():
 df_pred = pd.DataFrame(predictions)
 
 # ─── 8. INTEGRATE ODDS ───────────────────────────────────────────────────────
+from odds_integration import load_consensus_odds   # add this import
 
-odds = load_odds("data/cleaned/odds_checker_com.csv")
+odds = load_consensus_odds(
+    "data/cleaned/odds_checker_com.csv",
+    "data/cleaned/odds_unibet.csv",
+    weights=[0.3, 0.7],
+)
 df_pred = merge_odds(df_pred, odds)
 df_pred = apply_odds_calibration(df_pred, market_weight=0.7)
 

@@ -340,3 +340,135 @@ def print_predictions(df: pd.DataFrame):
                   f"(λ1={r['lambda1']}  λ2={r['lambda2']})")
 
     print("\n" + "="*80)
+
+def load_consensus_odds(
+    *filepaths: str,
+    weights: list[float] | None = None,
+    aliases_path: str = DEFAULT_ALIASES_PATH,
+) -> pd.DataFrame:
+    """
+    Load multiple odds CSVs with the same format and merge into consensus probabilities.
+
+    Parameters
+    ----------
+    *filepaths   : any number of CSV paths, e.g.
+                   load_consensus_odds("data/odds_checker.csv", "data/betexplorer.csv")
+    weights      : optional per-source weights, e.g. [0.6, 0.4]
+                   defaults to equal weighting across all sources
+    aliases_path : path to team_aliases.csv — same file used by merge_odds()
+
+    Returns the same structure as load_odds() — drop-in replacement.
+    Row count always equals the number of matches in the FIRST source file.
+
+    Name resolution priority (same as merge_odds):
+      1. Exact match         → used as-is
+      2. data/team_aliases.csv → ✓ Alias match
+      3. Fuzzy match         → ↳ Fuzzy match
+      4. No match            → ⚠ warning, row gets NaN for that source
+    """
+    sources = [load_odds(fp) for fp in filepaths]
+
+    if weights is None:
+        weights = [1.0 / len(sources)] * len(sources)
+    else:
+        if len(weights) != len(sources):
+            raise ValueError(f"Got {len(filepaths)} files but {len(weights)} weights")
+        total = sum(weights)
+        weights = [w / total for w in weights]
+
+    for i, (src, fp) in enumerate(zip(sources, filepaths)):
+        src_name = fp.split("/")[-1].replace(".csv", "")
+        print(f"  Source {i+1}: {src_name} — {len(src)} matches  (weight {weights[i]:.0%})")
+
+    prob_cols = ["mkt_win1", "mkt_draw", "mkt_win2"]
+
+    # Anchor team names come from source 1 — all other sources are normalized to match
+    anchor_names = list(set(sources[0]["team1"]) | set(sources[0]["team2"]))
+    aliases = load_aliases(aliases_path)  # {alias_lower: canonical}
+
+    def normalize_to_anchor(src: pd.DataFrame, src_label: str) -> pd.DataFrame:
+        """
+        Remap team names in src to match source-1 names.
+        Identical resolution logic as merge_odds():
+          1. Exact match in anchor names  → keep as-is
+          2. Alias table hit              → ✓ Alias match
+          3. Fuzzy match above threshold  → ↳ Fuzzy match
+          4. No match                     → ⚠ warning
+        """
+        src = src.copy()
+        name_fixes: dict[str, str] = {}
+
+        for col in ["team1", "team2"]:
+            for name in src[col].unique():
+                if name in anchor_names or name in name_fixes:
+                    continue  # already resolved
+
+                alias_hit = aliases.get(name.strip().lower())
+                if alias_hit and alias_hit in anchor_names:
+                    name_fixes[name] = alias_hit
+                    print(f"  [{src_label}] ✓ Alias match:  '{name}' -> '{alias_hit}'")
+                else:
+                    fuzzy_hit = _fuzzy_match(name, anchor_names)
+                    if fuzzy_hit:
+                        name_fixes[name] = fuzzy_hit
+                        print(f"  [{src_label}] ↳ Fuzzy match: '{name}' -> '{fuzzy_hit}'")
+                    else:
+                        print(f"  [{src_label}] ⚠ No match for '{name}' — add to team_aliases.csv to fix")
+
+        for col in ["team1", "team2"]:
+            src[col] = src[col].replace(name_fixes)
+
+        return src
+
+    # Merge all sources into source 1, left join to preserve row count
+    merged = sources[0].copy()
+
+    for i, src in enumerate(sources[1:], start=1):
+        src_label = filepaths[i].split("/")[-1].replace(".csv", "")
+        src_aligned = normalize_to_anchor(src, src_label)
+
+        merged = merged.merge(
+            src_aligned[["team1", "team2"] + prob_cols + ["margin"]],
+            on=["team1", "team2"],
+            how="left",                        # anchor to source 1 — no extra rows
+            suffixes=("", f"_s{i}"),
+        )
+
+    # Weighted average per probability column, skipping NaN sources per row
+    w_array = np.array(weights)
+
+    for col in prob_cols:
+        source_cols = [col] + [f"{col}_s{i}" for i in range(1, len(sources))]
+        col_data = merged[source_cols]
+
+        def weighted_row(row, w=w_array):
+            vals = row.values.astype(float)
+            mask = ~np.isnan(vals)
+            if not mask.any():
+                return np.nan
+            w_valid = w[mask] / w[mask].sum()  # renormalize for partial coverage
+            return float(np.dot(vals[mask], w_valid))
+
+        merged[col] = col_data.apply(weighted_row, axis=1)
+
+    # Re-normalize consensus probs to sum to exactly 1.0
+    row_totals = merged[prob_cols].sum(axis=1)
+    for col in prob_cols:
+        merged[col] = merged[col] / row_totals
+
+    # Average margin across sources
+    margin_cols = [c for c in merged.columns if c == "margin" or c.startswith("margin_s")]
+    merged["margin"] = merged[margin_cols].mean(axis=1)
+
+    # Coverage report
+    s1_only_cols = [f"mkt_win1_s{i}" for i in range(1, len(sources)) if f"mkt_win1_s{i}" in merged.columns]
+    n_full = int(merged[s1_only_cols].notna().all(axis=1).sum()) if s1_only_cols else len(merged)
+    print(f"  ────────────────────────────────────")
+    print(f"  Consensus rows  : {len(merged)}  ✓ (matches source-1 count)")
+    print(f"  All sources     : {n_full}/{len(merged)}")
+    print(f"  Single-source   : {len(merged) - n_full}  (source-1 probs used as fallback)")
+
+    # Drop per-source suffix columns
+    drop_cols = [c for c in merged.columns
+                 if any(c.endswith(f"_s{i}") for i in range(1, len(sources)))]
+    return merged.drop(columns=drop_cols)

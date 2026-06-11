@@ -23,6 +23,10 @@ def parse_odds(html_content: str) -> list[dict]:
         odd_null = odds_els[1].get_text(strip=True) if len(odds_els) > 1 else ""
         odd_2    = odds_els[2].get_text(strip=True) if len(odds_els) > 2 else ""
 
+        # Replace Evens -> 1/1
+        if odd_1 == "Evens": odd_1 = "1/1"
+        if odd_2 == "Evens": odd_2 = "1/1"
+
         results.append({
             "time": time,
             "team1": team1,

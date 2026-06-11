@@ -1,4 +1,5 @@
 import pandas as pd
+import polars as pl
 import numpy as np
 from typing import Dict, Tuple, Optional
 import logging
@@ -308,9 +309,23 @@ def main():
     recommendations = optimizer.process_predictions(predictions, points)
     
     # Save output
-    recommendations.to_csv('data/out/betting_recommendations.csv', index=False)
+    OUTFILE = 'data/out/betting_recommendations.csv'
+    recommendations.to_csv(OUTFILE, index=False)
     logger.info(f"Saved recommendations to betting_recommendations.csv")
     
+    # Clean version
+    recommendations_pl = pl.read_csv(OUTFILE)
+    predictions_pl = pl.DataFrame(predictions.to_dict('records'))
+
+    recommendations_clean = (
+        predictions_pl.select("match_id", "team1", "team2", "predicted_score", "score_cal", "model_vs_market")
+        .join(recommendations_pl.select("match_id", "bet_recommendation", "bet_outcome", "predicted_score", "edge_pct"), how="left", on="match_id")
+    )
+
+    recommendations_clean.write_csv('data/out/betting_recommendations_clean.csv')
+    
+
+
     # Print summary
     print("\n" + "="*80)
     print("BETTING RECOMMENDATIONS SUMMARY")

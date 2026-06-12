@@ -100,7 +100,9 @@ def compute_mpp_bets(
 
         # Edge = your model's prob for the RECOMMENDED outcome minus the
         # platform's prob for that SAME outcome (i.e. are you more confident
-        # than the platform thinks you should be, in this specific outcome?)
+        # than the platform thinks you should be, in THIS outcome specifically?)
+        # This is only meaningful for comparing the SAME outcome — kept for
+        # transparency, but risk_level below is driven by EV, not this.
         edge = model_probs[best_outcome] - platform_probs[best_outcome]
 
         # Naive EV: what you'd get by just always picking the platform favourite's score
@@ -109,37 +111,54 @@ def compute_mpp_bets(
                        {"team1_win": r["team1_points"], "draw": r["draw_points"],
                         "team2_win": r["team2_points"]}[platform_favourite]
 
+        ev_gain = evs[best_outcome] - naive_ev
         is_contrarian = (best_outcome != platform_favourite)
 
-        # Risk classification
-        if evs[best_outcome] < 30:
-            risk = "LOW_RETURN"          # safe-ish but low points either way
-        elif is_contrarian and edge > 0.05:
-            risk = "VALUE_CONTRARIAN"    # your model disagrees with platform AND has edge
+        # FIX: Risk classification now driven by ev_gain (the only number that
+        # tells you whether the recommended pick is actually BETTER than naive).
+        # Previously this used `edge_pct`, which compares probabilities of
+        # DIFFERENT outcomes (apples to oranges) and could be positive even
+        # when ev_gain was negative — producing contradictory recommendations.
+        if ev_gain <= 0:
+            # Recommended pick is NOT better than naive — fall back to naive
+            risk = "FOLLOW_FAVOURITE"
+            best_outcome = platform_favourite
+        elif evs[best_outcome] < 30:
+            risk = "LOW_RETURN"           # positive gain but low absolute points
+        elif is_contrarian and ev_gain > 5:
+            risk = "VALUE_CONTRARIAN"     # contrarian AND beats naive by a real margin
         elif is_contrarian:
-            risk = "SPECULATIVE"         # contrarian but no clear edge — risky
+            risk = "SPECULATIVE"          # contrarian, marginal gain — small edge, higher variance
         else:
-            risk = "SAFE_FAVOURITE"      # agrees with platform favourite
+            risk = "SAFE_FAVOURITE"       # agrees with platform, and it's still the best EV
+
+        # `best_outcome` and `recommended_score` may have been overridden above
+        # (FOLLOW_FAVOURITE case) — recompute everything that depends on them
+        final_score   = best[best_outcome]["score"]
+        final_p       = best[best_outcome]["p_outcome"]
+        final_p_exact = best[best_outcome]["p_exact"]
+        final_points  = {"team1_win": r["team1_points"], "draw": r["draw_points"],
+                          "team2_win": r["team2_points"]}[best_outcome]
+        final_ev      = evs[best_outcome]
 
         rows.append({
             "match_id":         r.get("match_id"),
             "date":             r.get("date"),
             "team1":            r["team1"],
             "team2":            r["team2"],
-            "recommended_score": best[best_outcome]["score"],
+            "recommended_score": final_score,
             "recommended_outcome": best_outcome,
-            "p_outcome":        round(best[best_outcome]["p_outcome"], 3),
-            "p_exact_score":    round(best[best_outcome]["p_exact"], 3),
-            "points_if_correct": {"team1_win": r["team1_points"], "draw": r["draw_points"],
-                                  "team2_win": r["team2_points"]}[best_outcome],
-            "expected_value":   round(evs[best_outcome], 2),
+            "p_outcome":        round(final_p, 3),
+            "p_exact_score":    round(final_p_exact, 3),
+            "points_if_correct": final_points,
+            "expected_value":   round(final_ev, 2),
             "platform_favourite": platform_favourite,
             "platform_p":       round(platform_probs[platform_favourite], 3),
             "naive_score":      naive_score,
             "naive_ev":         round(naive_ev, 2),
-            "ev_gain_vs_naive": round(evs[best_outcome] - naive_ev, 2),
+            "ev_gain_vs_naive": round(final_ev - naive_ev, 2),
             "edge_pct":         round(edge * 100, 1),
-            "is_contrarian":    is_contrarian,
+            "is_contrarian":    (best_outcome != platform_favourite),
             "risk_level":       risk,
             # Reference: EV of all 3 buckets, for transparency
             "ev_team1_win":     round(ev_team1, 2),

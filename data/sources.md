@@ -9,3 +9,8 @@ odds checker data: https://www.oddschecker.com/football/world-cup
 Odds MPP: https://mpp.football/
 
 Odds Unibet: https://www.unibet.co.uk/betting/odds/football
+
+Match stats data: https://footystats.org/clubs/south-africa-national-team-8656#
+
+- international friendlies: https://footystats.org/c-dl.php?type=matches&comp=16519
+- WC mathes: https://footystats.org/c-dl.php?type=matches&comp=16494

@@ -193,6 +193,11 @@ def predict_match(team1, team2, results_df):
         "rank2": ranking_dict.get(team2, "N/A"),
     }
 
+
+# ─── Utils: Compare prediction with actual results ────────────────────────────────────────
+from scoring import load_actual_results, add_results
+actual = load_actual_results("data/international-world-cup-matches-2026-to-2026-stats.csv")
+
 # ─── 7. RUN PREDICTIONS ──────────────────────────────────────────────────────
 
 predictions = []
@@ -243,6 +248,7 @@ df_pred = merge_odds(df_pred, odds)
 df_pred = apply_odds_calibration(df_pred, market_weight=0.7)
 
 print_predictions(df_pred)
+df_pred = add_results(df_pred, actual, score_col="predicted_score")
 df_pred.to_csv("data/out/predictions.csv", index=False)
 
 # ─── 9. MPP SCORE RECOMMENDATIONS ────────────────────────────────────────────
@@ -250,12 +256,14 @@ from mpp_bets import compute_mpp_bets, print_mpp_summary
 
 mpp = compute_mpp_bets(df_pred, "data/cleaned/odds_mpp.csv")
 print_mpp_summary(mpp)
+mpp = add_results(mpp, actual, score_col="recommended_score")
 mpp.to_csv("data/out/mpp_bets.csv", index=False)
 # Clean version
 (
     pl.read_csv("data/out/mpp_bets.csv")
     .select(
-        "match_id", "date", "team1", "team2", "recommended_score", "is_contrarian", "risk_level", "expected_value", "naive_score", "naive_ev", "ev_gain_vs_naive", "edge_pct"
+        "match_id", "date", "team1", "team2", "recommended_score", "is_contrarian", "risk_level", "expected_value", "naive_score", "naive_ev", "ev_gain_vs_naive", "edge_pct",
+        "actual_score","actual_outcome","outcome_correct","score_correct"
     )
     .write_csv("data/out/mpp_bets_clean.csv")
 )

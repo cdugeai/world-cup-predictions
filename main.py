@@ -204,7 +204,25 @@ for _, row in matches.iterrows():
 
 df_pred = pd.DataFrame(predictions)
 
+# ─── 8.5 INTEGRATE xG STATS (do this BEFORE odds calibration) ────────────────
+from xg_stats import load_match_stats, build_team_xg_profiles, get_prematch_signals, enrich_lambdas_with_xg
+
+stats = load_match_stats(
+    "data/international-international-friendlies-matches-2026-to-2026-stats.csv",
+    "data/international-world-cup-matches-2026-to-2026-stats.csv",
+)
+
+xg_profiles = build_team_xg_profiles(stats, n_recent=5)
+
+# Also need pre-match xG for the upcoming match itself, from the WC file
+wc_stats = pd.read_csv("data/international-world-cup-matches-2026-to-2026-stats.csv")
+prematch = get_prematch_signals(wc_stats)
+
+df_pred = enrich_lambdas_with_xg(df_pred, xg_profiles, prematch, xg_weight=0.5)
+
+# THEN run odds calibration as before — it operates on the now-improved lambdas
 # ─── 8. INTEGRATE ODDS ───────────────────────────────────────────────────────
+
 from odds_integration import load_consensus_odds   # add this import
 
 odds = load_consensus_odds(

@@ -134,6 +134,7 @@ def get_stats(team):
     return {"attack": 1.0, "defense": 1.0, "avg_scored": LEAGUE_AVG, "avg_conceded": LEAGUE_AVG}
 
 # ─── 6. PREDICT A MATCH ──────────────────────────────────────────────────────
+ELO_WEIGHT = 0.15
 
 def predict_match(team1, team2, results_df):
     # Recent form (exponentially weighted)
@@ -159,8 +160,8 @@ def predict_match(team1, team2, results_df):
 
     # Apply Elo-based adjustment (±15% max)
     elo_adj = np.clip((elo1 - elo2) / 400, -0.5, 0.5)
-    lambda1 *= (1 + 0.15 * elo_adj)
-    lambda2 *= (1 - 0.15 * elo_adj)
+    lambda1 *= (1 + ELO_WEIGHT * elo_adj)
+    lambda2 *= (1 - ELO_WEIGHT * elo_adj)
 
     # Clamp to sane range
     lambda1 = float(np.clip(lambda1, 0.3, 4.0))
@@ -219,6 +220,14 @@ wc_stats = pd.read_csv("data/international-world-cup-matches-2026-to-2026-stats.
 prematch = get_prematch_signals(wc_stats)
 
 df_pred = enrich_lambdas_with_xg(df_pred, xg_profiles, prematch, xg_weight=0.5)
+
+# ─── 8.7 OVERWRITE ELO WITH EXTERNAL 2026 SOURCE ─────────────────────────────
+from external_elo import load_external_elo, apply_external_elo, reapply_elo_adjustment_to_lambdas
+
+elo_dict = load_external_elo("data/elo_ratings_wc2026.csv")
+df_pred = apply_external_elo(df_pred, elo_dict)
+df_pred = reapply_elo_adjustment_to_lambdas(df_pred, elo_weight=ELO_WEIGHT)
+
 
 # THEN run odds calibration as before — it operates on the now-improved lambdas
 # ─── 8. INTEGRATE ODDS ───────────────────────────────────────────────────────

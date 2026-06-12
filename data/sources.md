@@ -14,3 +14,5 @@ Match stats data: https://footystats.org/clubs/south-africa-national-team-8656#
 
 - international friendlies: https://footystats.org/c-dl.php?type=matches&comp=16519
 - WC mathes: https://footystats.org/c-dl.php?type=matches&comp=16494
+
+Elo rating 2026: https://www.kaggle.com/datasets/afonsofernandescruz/2026-fifa-world-cup-historical-elo-ratings/

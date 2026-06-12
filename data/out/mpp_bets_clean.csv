@@ -1,7 +1,7 @@
 match_id,date,team1,team2,recommended_score,is_contrarian,risk_level,expected_value,naive_score,naive_ev,ev_gain_vs_naive,edge_pct,actual_score,actual_outcome,outcome_correct,score_correct
 1,11-Jun-26,Mexico,South Africa,1-0,false,FOLLOW_FAVOURITE,23.18,1-0,40.18,-17.0,21.8,2-0,team1_win,true,false
 2,11-Jun-26,South Korea,Czech Republic,1-1,false,FOLLOW_FAVOURITE,26.0,1-1,53.5,-27.5,15.7,2-1,team1_win,false,false
-3,12-Jun-26,Canada,Bosnia,0-1,true,VALUE_CONTRARIAN,61.26,1-0,38.35,22.91,31.0,,,,
+3,12-Jun-26,Canada,Bosnia,0-1,true,VALUE_CONTRARIAN,61.26,1-0,38.35,22.91,31.0,1-1,draw,false,false
 4,12-Jun-26,USA,Paraguay,1-0,false,FOLLOW_FAVOURITE,19.06,1-0,46.62,-27.56,21.0,,,,
 5,13-Jun-26,Haiti,Scotland,1-0,true,SPECULATIVE,41.76,0-1,38.72,3.04,23.1,,,,
 6,13-Jun-26,Australia,Turkey,0-1,false,FOLLOW_FAVOURITE,41.41,0-1,45.54,-4.13,-6.3,,,,

@@ -3,14 +3,14 @@ match_id,date,team1,team2,recommended_score,recommended_outcome,p_outcome,p_exac
 2,11-Jun-26,South Korea,Czech Republic,1-0,team1_win,0.423,0.099,96,40.64,team1_win,0.36,1-0,40.64,0.0,6.2,False,FOLLOW_FAVOURITE,40.64,22.04,33.74,1-0,1-1,0-1,2-1,team1_win,True,False
 3,12-Jun-26,Canada,Bosnia,2-0,team1_win,0.611,0.123,65,39.73,team1_win,0.52,1-0,39.73,0.0,8.9,False,FOLLOW_FAVOURITE,39.73,19.95,27.29,2-0,1-1,0-1,1-1,draw,False,False
 4,12-Jun-26,USA,Paraguay,0-1,team2_win,0.437,0.091,115,50.25,team1_win,0.5,1-0,28.19,22.06,21.2,True,VALUE_CONTRARIAN,28.19,20.57,50.25,1-0,1-1,0-1,,,,
-5,13-Jun-26,Haiti,Scotland,0-2,team2_win,0.675,0.142,44,29.69,team2_win,0.61,0-1,29.69,0.0,6.2,False,FOLLOW_FAVOURITE,27.17,19.49,29.69,1-0,1-1,0-2,,,,
-6,13-Jun-26,Australia,Turkey,0-1,team2_win,0.575,0.119,66,37.97,team2_win,0.56,0-1,37.97,0.0,1.8,False,FOLLOW_FAVOURITE,31.93,19.7,37.97,1-0,1-1,0-1,,,,
-7,13-Jun-26,Brazil,Morocco,1-0,team1_win,0.61,0.123,55,33.57,team1_win,0.57,1-0,33.57,0.0,4.3,False,FOLLOW_FAVOURITE,33.57,20.33,31.21,1-0,1-1,0-1,,,,
-8,13-Jun-26,Qatar,Switzerland,0-2,team2_win,0.827,0.186,33,27.28,team2_win,0.77,0-1,27.28,0.0,5.2,False,FOLLOW_FAVOURITE,10.8,15.59,27.28,1-0,0-0,0-2,,,,
-9,14-Jun-26,Ivory Coast,Ecuador,0-2,team2_win,0.601,0.129,85,51.11,team2_win,0.4,0-1,51.11,0.0,20.3,False,FOLLOW_FAVOURITE,22.23,19.48,51.11,1-0,1-1,0-2,,,,
-10,14-Jun-26,Germany,Curaçao,2-0,team1_win,0.887,0.198,15,13.31,team1_win,0.91,1-0,13.31,0.0,-2.7,False,FOLLOW_FAVOURITE,13.31,13.19,8.66,2-0,0-0,0-1,,,,
-11,14-Jun-26,Netherlands,Japan,0-1,team2_win,0.327,0.091,113,36.93,team1_win,0.46,1-0,36.12,0.81,5.7,True,VALUE_CONTRARIAN,36.12,21.28,36.93,1-0,1-1,0-1,,,,
-12,14-Jun-26,Sweden,Tunisia,1-0,team1_win,0.524,0.113,72,37.73,team1_win,0.5,1-0,37.73,0.0,2.5,False,FOLLOW_FAVOURITE,37.73,20.41,35.43,1-0,1-1,0-1,,,,
+5,13-Jun-26,Haiti,Scotland,0-2,team2_win,0.675,0.142,44,29.69,team2_win,0.61,0-1,29.69,0.0,6.2,False,FOLLOW_FAVOURITE,27.17,19.49,29.69,1-0,1-1,0-2,0-1,team2_win,True,False
+6,13-Jun-26,Australia,Turkey,0-1,team2_win,0.575,0.119,66,37.97,team2_win,0.56,0-1,37.97,0.0,1.8,False,FOLLOW_FAVOURITE,31.93,19.7,37.97,1-0,1-1,0-1,2-0,team1_win,False,False
+7,13-Jun-26,Brazil,Morocco,1-0,team1_win,0.61,0.123,55,33.57,team1_win,0.57,1-0,33.57,0.0,4.3,False,FOLLOW_FAVOURITE,33.57,20.33,31.21,1-0,1-1,0-1,1-1,draw,False,False
+8,13-Jun-26,Qatar,Switzerland,0-2,team2_win,0.827,0.186,33,27.28,team2_win,0.77,0-1,27.28,0.0,5.2,False,FOLLOW_FAVOURITE,10.8,15.59,27.28,1-0,0-0,0-2,1-1,draw,False,False
+9,14-Jun-26,Ivory Coast,Ecuador,0-2,team2_win,0.601,0.129,85,51.11,team2_win,0.4,0-1,51.11,0.0,20.3,False,FOLLOW_FAVOURITE,22.23,19.48,51.11,1-0,1-1,0-2,1-0,team1_win,False,False
+10,14-Jun-26,Germany,Curaçao,2-0,team1_win,0.887,0.198,15,13.31,team1_win,0.91,1-0,13.31,0.0,-2.7,False,FOLLOW_FAVOURITE,13.31,13.19,8.66,2-0,0-0,0-1,7-1,team1_win,True,False
+11,14-Jun-26,Netherlands,Japan,0-1,team2_win,0.327,0.091,113,36.93,team1_win,0.46,1-0,36.12,0.81,5.7,True,VALUE_CONTRARIAN,36.12,21.28,36.93,1-0,1-1,0-1,2-2,draw,False,False
+12,14-Jun-26,Sweden,Tunisia,1-0,team1_win,0.524,0.113,72,37.73,team1_win,0.5,1-0,37.73,0.0,2.5,False,FOLLOW_FAVOURITE,37.73,20.41,35.43,1-0,1-1,0-1,5-1,team1_win,True,False
 13,15-Jun-26,Saudi Arabia,Uruguay,0-2,team2_win,0.736,0.167,50,36.78,team2_win,0.66,0-1,36.78,0.0,8.0,False,FOLLOW_FAVOURITE,18.08,17.58,36.78,1-0,0-0,0-2,,,,
 14,15-Jun-26,Spain,Cape Verde,2-0,team1_win,0.885,0.193,16,14.17,team1_win,0.86,1-0,14.17,0.0,2.2,False,FOLLOW_FAVOURITE,14.17,14.0,6.55,2-0,0-0,0-1,,,,
 15,15-Jun-26,Iran,New Zealand,1-0,team1_win,0.602,0.12,63,37.94,team1_win,0.52,1-0,37.94,0.0,7.7,False,FOLLOW_FAVOURITE,37.94,20.0,29.3,1-0,1-1,0-1,,,,

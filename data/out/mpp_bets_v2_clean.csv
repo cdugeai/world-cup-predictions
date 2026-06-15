@@ -3,14 +3,14 @@ match_id,date,team1,team2,recommended_score,is_contrarian,risk_level,expected_va
 2,11-Jun-26,South Korea,Czech Republic,1-0,false,FOLLOW_FAVOURITE,40.64,1-0,40.64,0.0,6.2,2-1,team1_win,true,false
 3,12-Jun-26,Canada,Bosnia,2-0,false,FOLLOW_FAVOURITE,39.73,1-0,39.73,0.0,8.9,1-1,draw,false,false
 4,12-Jun-26,USA,Paraguay,0-1,true,VALUE_CONTRARIAN,50.25,1-0,28.19,22.06,21.2,,,,
-5,13-Jun-26,Haiti,Scotland,0-2,false,FOLLOW_FAVOURITE,29.69,0-1,29.69,0.0,6.2,,,,
-6,13-Jun-26,Australia,Turkey,0-1,false,FOLLOW_FAVOURITE,37.97,0-1,37.97,0.0,1.8,,,,
-7,13-Jun-26,Brazil,Morocco,1-0,false,FOLLOW_FAVOURITE,33.57,1-0,33.57,0.0,4.3,,,,
-8,13-Jun-26,Qatar,Switzerland,0-2,false,FOLLOW_FAVOURITE,27.28,0-1,27.28,0.0,5.2,,,,
-9,14-Jun-26,Ivory Coast,Ecuador,0-2,false,FOLLOW_FAVOURITE,51.11,0-1,51.11,0.0,20.3,,,,
-10,14-Jun-26,Germany,Curaçao,2-0,false,FOLLOW_FAVOURITE,13.31,1-0,13.31,0.0,-2.7,,,,
-11,14-Jun-26,Netherlands,Japan,0-1,true,VALUE_CONTRARIAN,36.93,1-0,36.12,0.81,5.7,,,,
-12,14-Jun-26,Sweden,Tunisia,1-0,false,FOLLOW_FAVOURITE,37.73,1-0,37.73,0.0,2.5,,,,
+5,13-Jun-26,Haiti,Scotland,0-2,false,FOLLOW_FAVOURITE,29.69,0-1,29.69,0.0,6.2,0-1,team2_win,true,false
+6,13-Jun-26,Australia,Turkey,0-1,false,FOLLOW_FAVOURITE,37.97,0-1,37.97,0.0,1.8,2-0,team1_win,false,false
+7,13-Jun-26,Brazil,Morocco,1-0,false,FOLLOW_FAVOURITE,33.57,1-0,33.57,0.0,4.3,1-1,draw,false,false
+8,13-Jun-26,Qatar,Switzerland,0-2,false,FOLLOW_FAVOURITE,27.28,0-1,27.28,0.0,5.2,1-1,draw,false,false
+9,14-Jun-26,Ivory Coast,Ecuador,0-2,false,FOLLOW_FAVOURITE,51.11,0-1,51.11,0.0,20.3,1-0,team1_win,false,false
+10,14-Jun-26,Germany,Curaçao,2-0,false,FOLLOW_FAVOURITE,13.31,1-0,13.31,0.0,-2.7,7-1,team1_win,true,false
+11,14-Jun-26,Netherlands,Japan,0-1,true,VALUE_CONTRARIAN,36.93,1-0,36.12,0.81,5.7,2-2,draw,false,false
+12,14-Jun-26,Sweden,Tunisia,1-0,false,FOLLOW_FAVOURITE,37.73,1-0,37.73,0.0,2.5,5-1,team1_win,true,false
 13,15-Jun-26,Saudi Arabia,Uruguay,0-2,false,FOLLOW_FAVOURITE,36.78,0-1,36.78,0.0,8.0,,,,
 14,15-Jun-26,Spain,Cape Verde,2-0,false,FOLLOW_FAVOURITE,14.17,1-0,14.17,0.0,2.2,,,,
 15,15-Jun-26,Iran,New Zealand,1-0,false,FOLLOW_FAVOURITE,37.94,1-0,37.94,0.0,7.7,,,,

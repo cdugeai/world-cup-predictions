@@ -28,3 +28,11 @@ uv run python3 betting_optimizer.py
 
 The recommendations are available in [betting_recommendations.csv](data/out/betting_recommendations.csv).
 A cleaner version of this file is available in [betting_recommendations_clean.csv](data/out/betting_recommendations_clean.csv).
+
+## Betting advices V2
+
+Simpler version of betting advices:
+
+```sh
+uv run python3 mpp_bets_v2.py --data-dir ./data --out data/out/mpp_bets_v2.csv
+```

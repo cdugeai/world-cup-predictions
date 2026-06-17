@@ -11,14 +11,14 @@ match_id,date,team1,team2,recommended_score,is_contrarian,risk_level,expected_va
 10,14-Jun-26,Germany,Curaçao,2-0,false,FOLLOW_FAVOURITE,13.31,1-0,13.31,0.0,-2.7,7-1,team1_win,true,false
 11,14-Jun-26,Netherlands,Japan,0-1,true,VALUE_CONTRARIAN,36.93,1-0,36.12,0.81,5.7,2-2,draw,false,false
 12,14-Jun-26,Sweden,Tunisia,1-0,false,FOLLOW_FAVOURITE,37.73,1-0,37.73,0.0,2.5,5-1,team1_win,true,false
-13,15-Jun-26,Saudi Arabia,Uruguay,0-2,false,FOLLOW_FAVOURITE,36.78,0-1,36.78,0.0,8.0,,,,
+13,15-Jun-26,Saudi Arabia,Uruguay,0-2,false,FOLLOW_FAVOURITE,36.78,0-1,36.78,0.0,8.0,1-1,draw,false,false
 14,15-Jun-26,Spain,Cape Verde,2-0,false,FOLLOW_FAVOURITE,14.17,1-0,14.17,0.0,2.2,,,,
-15,15-Jun-26,Iran,New Zealand,1-0,false,FOLLOW_FAVOURITE,37.94,1-0,37.94,0.0,7.7,,,,
-16,15-Jun-26,Belgium,Egypt,1-0,false,FOLLOW_FAVOURITE,35.46,1-0,35.46,0.0,5.3,,,,
-17,16-Jun-26,France,Senegal,2-0,false,FOLLOW_FAVOURITE,30.71,1-0,30.71,0.0,2.5,,,,
-18,16-Jun-26,Iraq,Norway,0-2,false,FOLLOW_FAVOURITE,23.4,0-1,23.4,0.0,-0.7,,,,
-19,16-Jun-26,Argentina,Algeria,2-0,false,FOLLOW_FAVOURITE,32.91,1-0,32.91,0.0,7.9,,,,
-20,16-Jun-26,Austria,Jordan,0-1,true,VALUE_CONTRARIAN,33.85,1-0,24.81,9.04,10.4,,,,
+15,15-Jun-26,Iran,New Zealand,1-0,false,FOLLOW_FAVOURITE,37.94,1-0,37.94,0.0,7.7,2-2,draw,false,false
+16,15-Jun-26,Belgium,Egypt,1-0,false,FOLLOW_FAVOURITE,35.46,1-0,35.46,0.0,5.3,1-1,draw,false,false
+17,16-Jun-26,France,Senegal,2-0,false,FOLLOW_FAVOURITE,30.71,1-0,30.71,0.0,2.5,3-1,team1_win,true,false
+18,16-Jun-26,Iraq,Norway,0-2,false,FOLLOW_FAVOURITE,23.4,0-1,23.4,0.0,-0.7,1-4,team2_win,true,false
+19,16-Jun-26,Argentina,Algeria,2-0,false,FOLLOW_FAVOURITE,32.91,1-0,32.91,0.0,7.9,3-0,team1_win,true,false
+20,16-Jun-26,Austria,Jordan,0-1,true,VALUE_CONTRARIAN,33.85,1-0,24.81,9.04,10.4,3-1,team1_win,false,false
 21,17-Jun-26,Ghana,Panama,0-2,true,VALUE_CONTRARIAN,62.22,1-0,21.2,41.02,26.8,,,,
 22,17-Jun-26,England,Croatia,0-1,true,VALUE_CONTRARIAN,36.75,1-0,32.41,4.34,7.7,,,,
 23,17-Jun-26,Portugal,Congo DR,2-0,false,FOLLOW_FAVOURITE,26.27,1-0,26.27,0.0,3.0,,,,
